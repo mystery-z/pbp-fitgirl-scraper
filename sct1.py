@@ -56,17 +56,14 @@ def mainScraper():
 		for result in results:
 			link = result.get("href")
 			title = result.text.strip()
-			if "\u2019" in title:
-				title1 = title.replace("\u2019","'")
-			elif "\u2018" in title:
-				title1 = title.replace("\u2018","'")
-			elif "\u2014" in title:
-				title1 = title.replace("\u2014", "-")
-			elif "\u2013" in title:
-				title1 = title.replace("\u2013", "-")
+		
+			title1 = title.replace("\u2019","'")
+			title2 = title1.replace("\u2018","'")
+			title3 = title2.replace("\u2014", "-")
+			title4 = title3.replace("\u2013", "-")
 			
-			print(link, title)
-			entry = {"title": title1,
+			print(link, title4)
+			entry = {"title": title4,
 					 "link": link
 					}
 			print(entry)
