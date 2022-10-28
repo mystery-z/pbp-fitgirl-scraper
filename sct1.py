@@ -4,8 +4,7 @@
 import time
 import requests
 from bs4 import BeautifulSoup
-import json
-
+import unidecode, json
 # ~ this is a tier-one scraper
 
 with open("fitgirl_index.json",'w+') as file:
@@ -57,13 +56,10 @@ def mainScraper():
 			link = result.get("href")
 			title = result.text.strip()
 		
-			title1 = title.replace("\u2019","'")
-			title2 = title1.replace("\u2018","'")
-			title3 = title2.replace("\u2014", "-")
-			title4 = title3.replace("\u2013", "-")
 			
-			print(link, title4)
-			entry = {"title": title4,
+			title2 = unidecode.unidecode(title)
+			print(link, title2)
+			entry = {"title": title2,
 					 "link": link
 					}
 			print(entry)
