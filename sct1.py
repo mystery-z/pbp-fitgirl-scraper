@@ -3,7 +3,6 @@
 # -*- coding: utf-8 -*-
 import time
 import requests
-import re
 from bs4 import BeautifulSoup
 import unidecode, json
 # ~ this is a tier-one scraper
@@ -54,18 +53,14 @@ def mainScraper():
 		results = gameList.find_all('a')
 
 		for result in results:
+			title2 = []
 			link = result.get("href")
 			title = result.text.strip()
 	
 			title1 = unidecode.unidecode(title)
-			title2 = re.split(r'v[0-9]+', title1)
-			print(title2)
-			if title2[-1] == "-" :
-				title3 = title2[:-1].rstrip()
-			else:
-				title3 = title2
-			print(link, title3)
-			entry = {"title": title3,
+			
+			print(link, title1)
+			entry = {"title": title1,
 					 "URI": link
 					}
 			
