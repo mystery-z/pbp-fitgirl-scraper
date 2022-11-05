@@ -12,6 +12,33 @@ with open("fitgirl_index.json",'w+') as file:
 }'''
 	file.write(base)
 
+def gameLinker(dl_link):
+	startUrl = dl_link
+	startReq = requests.get(startUrl)
+	startSoup = BeautifulSoup(startReq.content, 'html.parser')
+	content = startSoup.find('div', class_='entry-content')
+	bulletList = content.find_all('a')
+
+	dictionary = {}
+
+	for line in bulletList:
+		name = line.text.strip()
+		link = line.get("href")
+		if link != "http://jdownloader.org/jdownloader2":
+			if link != "":
+				if  "Filehoster" in name:
+					dictionary[name] = link
+				elif "torrent" in name:
+					dictionary[name] = link
+	return dictionary
+
+def write_json(new_data, filename='fitgirl_index.json'):
+			with open(filename,'r+', encoding='utf-8') as file:
+				file_data = json.load(file)
+				file_data["fitgirl_index"].append(new_data)
+				file.seek(0)
+				json.dump(file_data, file, indent = 4)
+
 def mainScraper():
 	startUrl = "https://fitgirl-repacks.site/all-my-repacks-a-z/"
 	
@@ -44,24 +71,19 @@ def mainScraper():
 
 		results = gameList.find_all('a')
 
-
-		def write_json(new_data, filename='fitgirl_index.json'):
-			with open(filename,'r+', encoding='utf-8') as file:
-				file_data = json.load(file)
-				file_data["fitgirl_index"].append(new_data)
-				file.seek(0)
-				json.dump(file_data, file, indent = 4)
-
 		for result in results:
 			link = result.get("href")
 			title = result.text.strip()
 		
+			dictionary = gameLinker(link)
 			
 			title2 = unidecode.unidecode(title)
 			print(link, title2)
 			entry = {"title": title2,
-					 "link": link
+					 "link": link,
+					 "download": dictionary
 					}
+			
 			print(entry)
 			write_json(entry)
 
