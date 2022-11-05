@@ -11,7 +11,7 @@ def gameLinker(dl_link):
 	bulletList = firstList.find_all('a')
 
 
-	dict = {}
+	dict1 = {}
 
 
 	for line in bulletList:
@@ -19,22 +19,9 @@ def gameLinker(dl_link):
 		link = line.get("href")
 		if link != "http://jdownloader.org/jdownloader2":
 			if link != "magnet:":
-				dict[name] = link
-	print(dict)
+				dict1[name] = link
+	return(dict1)
 
 
-	with open("fitgirl_index.json","a",encoding='utf-8') as filemygod:
-		file_data = json.load(filemygod)
-		megalist = file_data["fitgirl_index"]
-		print(megalist)
-		
-
-with open("fitgirl_index.json","r",encoding='utf-8') as readfile:
-	data = json.load(readfile)
-	
-	for item in data['fitgirl_index']:
-		dl_link = item['link']
-		print(dl_link)
-		gameLinker(dl_link)
-
-
+# ~ usage: 
+print(gameLinker("https://fitgirl-repacks.site/borderlands-game-of-the-year-enhanced"))

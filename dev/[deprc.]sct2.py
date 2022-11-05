@@ -3,23 +3,14 @@
 # -*- coding: utf-8 -*-
 import time
 import requests
-import re
 from bs4 import BeautifulSoup
 import unidecode, json
 # ~ this is a tier-one scraper
 
 with open("fitgirl_index.json",'w+') as file:
-	base = '''{"response":[]	
+	base = '''{"fitgirl_index":[]	
 }'''
 	file.write(base)
-
-
-def write_json(new_data, filename='fitgirl_index.json'):
-			with open(filename,'r+', encoding='utf-8') as file:
-				file_data = json.load(file)
-				file_data["response"].append(new_data)
-				file.seek(0)
-				json.dump(file_data, file, indent = 4)
 
 def mainScraper():
 	startUrl = "https://fitgirl-repacks.site/all-my-repacks-a-z/"
@@ -53,22 +44,24 @@ def mainScraper():
 
 		results = gameList.find_all('a')
 
+
+		def write_json(new_data, filename='fitgirl_index.json'):
+			with open(filename,'r+', encoding='utf-8') as file:
+				file_data = json.load(file)
+				file_data["fitgirl_index"].append(new_data)
+				file.seek(0)
+				json.dump(file_data, file, indent = 4)
+
 		for result in results:
 			link = result.get("href")
 			title = result.text.strip()
-	
-			title1 = unidecode.unidecode(title)
-			title2 = re.split(r'v[0-9]+', title1)
-			print(title2)
-			if title2[-1] == "-" :
-				title3 = title2[:-1].rstrip()
-			else:
-				title3 = title2
-			print(link, title3)
-			entry = {"title": title3,
-					 "URI": link
-					}
+		
 			
+			title2 = unidecode.unidecode(title)
+			print(link, title2)
+			entry = {"title": title2,
+					 "link": link
+					}
 			print(entry)
 			write_json(entry)
 
