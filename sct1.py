@@ -61,7 +61,7 @@ def mainScraper():
 			
 			print(link, title1)
 			entry = {"title": title1,
-					 "URI": link
+					 "URIs": link
 					}
 			
 			print(entry)

@@ -2,6 +2,7 @@ import time
 import requests
 from bs4 import BeautifulSoup
 import unidecode, json
+
 def gameLinker(dl_link):
 	startUrl = dl_link
 	startReq = requests.get(startUrl)
